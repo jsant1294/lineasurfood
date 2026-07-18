@@ -1,0 +1,604 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LíneaSur Menu Express — Digital Menu &amp; Ordering for Food Businesses</title>
+<meta name="description" content="A complete WhatsApp-native digital ordering system for food businesses. Bilingual ES/EN, item modifiers, order log, QR code flyer. Live in 24 hours.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://lineasur-menu.vercel.app/pitch.html">
+<meta property="og:title" content="Your Menu. Online. Tonight. — LíneaSur Menu Express">
+<meta property="og:description" content="A complete digital ordering system for food businesses. WhatsApp-native, bilingual ES/EN, modifiers, order log. No app needed.">
+<meta property="og:image" content="https://lineasur-menu.vercel.app/api/pitch-og">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Your Menu. Online. Tonight.">
+<meta name="twitter:description" content="Digital ordering for food businesses — WhatsApp-native, bilingual, no app needed.">
+<meta name="twitter:image" content="https://lineasur-menu.vercel.app/api/pitch-og">
+<style>
+  :root {
+    --bg: #100D09;
+    --surface: #1C1812;
+    --card: #231E16;
+    --text: #F2EDE3;
+    --muted: #A09282;
+    --accent: #E04A18;
+    --accent-glow: rgba(224,74,24,0.15);
+    --gold: #C8962A;
+    --border: #2E281E;
+    --font-display: Georgia, 'Times New Roman', serif;
+    --font-body: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-mono: 'Courier New', Courier, monospace;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #FDFBF7; --surface: #F5F0E6; --card: #FFFFFF;
+      --text: #180F07; --muted: #7A6A5A; --accent: #C23510;
+      --accent-glow: rgba(194,53,16,0.1); --gold: #9B6F1A; --border: #E8E0D0;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #100D09; --surface: #1C1812; --card: #231E16;
+    --text: #F2EDE3; --muted: #A09282; --accent: #E04A18;
+    --accent-glow: rgba(224,74,24,0.15); --gold: #C8962A; --border: #2E281E;
+  }
+  :root[data-theme="light"] {
+    --bg: #FDFBF7; --surface: #F5F0E6; --card: #FFFFFF;
+    --text: #180F07; --muted: #7A6A5A; --accent: #C23510;
+    --accent-glow: rgba(194,53,16,0.1); --gold: #9B6F1A; --border: #E8E0D0;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── LANGUAGE / THEME BAR ── */
+  .topbar {
+    position: sticky; top: 0; z-index: 200;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px;
+  }
+  .topbar-name {
+    font-family: var(--font-display); font-weight: bold; font-size: 14px;
+    color: var(--text); letter-spacing: -0.01em;
+  }
+  .topbar-name span { color: var(--accent); }
+  .topbar-controls { display: flex; align-items: center; gap: 8px; }
+  .lang-toggle {
+    display: flex; border: 1px solid var(--border); border-radius: 6px; overflow: hidden;
+  }
+  .lang-btn {
+    background: none; border: none; padding: 5px 12px;
+    font-family: var(--font-mono); font-size: 12px; font-weight: 700;
+    letter-spacing: 0.05em; cursor: pointer; color: var(--muted);
+    transition: background 0.15s, color 0.15s;
+  }
+  .lang-btn.active { background: var(--accent); color: #fff; }
+  .theme-btn {
+    background: none; border: 1px solid var(--border); border-radius: 6px;
+    color: var(--muted); font-size: 11px; padding: 5px 10px; cursor: pointer;
+    font-family: var(--font-body);
+  }
+
+  /* ── CONTENT WRAPPER ── */
+  .wrap { max-width: 1000px; margin: 0 auto; padding: 0 24px; }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 80px 0 72px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: 0; left: -100px; right: -100px; bottom: 0;
+    background: radial-gradient(ellipse 60% 70% at 20% 40%, var(--accent-glow), transparent 70%);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent);
+    margin-bottom: 20px;
+  }
+  .hero h1 {
+    font-family: var(--font-display); font-weight: bold;
+    font-size: clamp(48px, 8vw, 88px);
+    line-height: 0.96; letter-spacing: -0.02em;
+    color: var(--text); text-wrap: balance;
+    margin-bottom: 28px;
+  }
+  .hero h1 em { font-style: italic; color: var(--accent); }
+  .hero-sub {
+    font-size: clamp(16px, 2.2vw, 20px); color: var(--muted);
+    max-width: 560px; line-height: 1.55; margin-bottom: 36px;
+  }
+  .hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--accent); color: #fff;
+    font-family: var(--font-body); font-weight: 700; font-size: 15px;
+    padding: 14px 28px; border-radius: 8px; text-decoration: none;
+    border: none; cursor: pointer;
+    transition: opacity 0.15s, transform 0.1s;
+  }
+  .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+  .btn-secondary {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: transparent; color: var(--text);
+    font-family: var(--font-body); font-weight: 700; font-size: 15px;
+    padding: 14px 24px; border-radius: 8px; text-decoration: none;
+    border: 1px solid var(--border); cursor: pointer;
+    transition: border-color 0.15s, transform 0.1s;
+  }
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+  .hero-stat-row {
+    display: flex; gap: 32px; flex-wrap: wrap;
+    margin-top: 52px; padding-top: 28px; border-top: 1px solid var(--border);
+  }
+  .hero-stat .n {
+    font-family: var(--font-display); font-size: 32px; font-weight: bold;
+    color: var(--accent); letter-spacing: -0.02em; line-height: 1;
+  }
+  .hero-stat .l { font-size: 12px; color: var(--muted); margin-top: 2px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; }
+
+  /* ── SECTION LABEL ── */
+  .section-label {
+    font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold);
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: var(--font-display); font-size: clamp(24px, 4vw, 36px);
+    font-weight: bold; letter-spacing: -0.02em; color: var(--text);
+    text-wrap: balance; margin-bottom: 12px;
+  }
+  .section-sub { font-size: 16px; color: var(--muted); max-width: 520px; line-height: 1.55; }
+
+  /* ── WHAT YOU GET ── */
+  .features { padding: 72px 0; border-bottom: 1px solid var(--border); }
+  .features-header { margin-bottom: 40px; }
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .feat-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 24px;
+    transition: border-color 0.2s;
+  }
+  .feat-card:hover { border-color: var(--accent); }
+  .feat-icon {
+    font-size: 24px; margin-bottom: 14px;
+    display: block; line-height: 1;
+  }
+  .feat-title {
+    font-family: var(--font-display); font-weight: bold; font-size: 17px;
+    color: var(--text); margin-bottom: 8px;
+  }
+  .feat-desc { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+  /* ── HOW IT WORKS ── */
+  .how { padding: 72px 0; border-bottom: 1px solid var(--border); }
+  .how-header { margin-bottom: 48px; }
+  .steps-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    position: relative;
+  }
+  .steps-row::before {
+    content: '';
+    position: absolute;
+    top: 28px; left: calc(33.33% - 16px); right: calc(33.33% - 16px);
+    height: 1px; background: var(--border);
+    pointer-events: none;
+  }
+  .how-step { text-align: center; padding: 8px; }
+  .how-step-n {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: var(--surface); border: 2px solid var(--accent);
+    font-family: var(--font-display); font-weight: bold; font-size: 22px;
+    color: var(--accent); display: grid; place-items: center; margin: 0 auto 20px;
+    position: relative; z-index: 1; background: var(--bg);
+  }
+  .how-step-title {
+    font-family: var(--font-display); font-weight: bold; font-size: 17px;
+    color: var(--text); margin-bottom: 8px; text-wrap: balance;
+  }
+  .how-step-desc { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+  /* ── WHO IT'S FOR ── */
+  .who { padding: 72px 0; border-bottom: 1px solid var(--border); }
+  .who-header { margin-bottom: 36px; }
+  .who-grid {
+    display: flex; flex-wrap: wrap; gap: 12px;
+  }
+  .who-chip {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 100px; padding: 10px 20px;
+    font-size: 15px; font-weight: 600; color: var(--text);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .who-chip span { font-size: 18px; }
+
+  /* ── INCLUDED ── */
+  .included { padding: 72px 0; border-bottom: 1px solid var(--border); }
+  .included-header { margin-bottom: 40px; }
+  .included-list {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 8px; list-style: none;
+  }
+  .included-list li {
+    display: flex; align-items: flex-start; gap: 10px;
+    font-size: 15px; color: var(--text); padding: 4px 0;
+  }
+  .check { color: var(--accent); font-weight: 900; font-size: 16px; flex-shrink: 0; margin-top: 2px; }
+
+  /* ── CTA ── */
+  .cta-section {
+    padding: 80px 0 88px;
+    text-align: center;
+    position: relative;
+  }
+  .cta-section::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 70% 100% at 50% 50%, var(--accent-glow), transparent 70%);
+    pointer-events: none;
+  }
+  .cta-section .section-title { font-size: clamp(28px, 5vw, 48px); margin-bottom: 16px; }
+  .cta-section .section-sub { margin: 0 auto 36px; }
+  .cta-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .cta-note { margin-top: 20px; font-size: 13px; color: var(--muted); }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 24px;
+    text-align: center;
+    font-size: 13px; color: var(--muted);
+  }
+  footer strong { color: var(--text); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 640px) {
+    .wrap { padding: 0 16px; }
+    .hero { padding: 48px 0 40px; }
+    .hero-stat-row { gap: 20px; }
+    .steps-row { grid-template-columns: 1fr; }
+    .steps-row::before { display: none; }
+    .how-step { text-align: left; display: flex; gap: 16px; align-items: flex-start; }
+    .how-step-n { margin: 0; flex-shrink: 0; width: 44px; height: 44px; font-size: 18px; }
+    .how-step-title, .how-step-desc { text-align: left; }
+  }
+
+  @media (max-width: 480px) {
+    .topbar { padding: 10px 16px; }
+    .topbar-name { font-size: 13px; }
+  }
+
+  /* ── LANG SWITCHING ── */
+  [data-lang="en"] .es { display: none; }
+  [data-lang="es"] .en { display: none; }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-name">Línea<span>Sur</span> Menu Express</div>
+  <div class="topbar-controls">
+    <div class="lang-toggle">
+      <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" id="btn-es" onclick="setLang('es')">ES</button>
+    </div>
+    <button class="theme-btn" onclick="toggleTheme()">
+      <span class="en">Theme</span><span class="es">Tema</span>
+    </button>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <p class="hero-eyebrow">
+      <span class="en">Digital Menu &amp; Ordering System</span>
+      <span class="es">Menú Digital y Sistema de Pedidos</span>
+    </p>
+    <h1>
+      <span class="en">Your Menu.<br><em>Online.</em><br>Tonight.</span>
+      <span class="es">Tu Menú.<br><em>En Línea.</em><br>Esta Noche.</span>
+    </h1>
+    <p class="hero-sub">
+      <span class="en">A complete digital ordering system built for food businesses. WhatsApp-native, bilingual, and yours to own — no monthly app fees, no marketplace commissions.</span>
+      <span class="es">Un sistema completo de pedidos digitales para negocios de comida. Nativo en WhatsApp, bilingüe, y tuyo para siempre — sin cuotas de app, sin comisiones de marketplace.</span>
+    </p>
+    <div class="hero-ctas">
+      <a href="https://lineasur-menu.vercel.app" target="_blank" class="btn-primary">
+        <span class="en">See It Live →</span>
+        <span class="es">Ver Demo →</span>
+      </a>
+      <a href="#cta" class="btn-secondary">
+        <span class="en">Get Yours</span>
+        <span class="es">Obtén el Tuyo</span>
+      </a>
+    </div>
+    <div class="hero-stat-row">
+      <div class="hero-stat">
+        <div class="n">~24h</div>
+        <div class="l en">Setup time</div>
+        <div class="l es">Tiempo de setup</div>
+      </div>
+      <div class="hero-stat">
+        <div class="n">ES+EN</div>
+        <div class="l en">Bilingual out of the box</div>
+        <div class="l es">Bilingüe desde el inicio</div>
+      </div>
+      <div class="hero-stat">
+        <div class="n">$0</div>
+        <div class="l en">App download required</div>
+        <div class="l es">App para descargar</div>
+      </div>
+      <div class="hero-stat">
+        <div class="n">100%</div>
+        <div class="l en">You own your data</div>
+        <div class="l es">Tus datos son tuyos</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features">
+  <div class="wrap">
+    <div class="features-header">
+      <p class="section-label">
+        <span class="en">What You Get</span>
+        <span class="es">Qué Incluye</span>
+      </p>
+      <h2 class="section-title">
+        <span class="en">Everything your kitchen needs,<br>nothing it doesn't.</span>
+        <span class="es">Todo lo que tu negocio necesita,<br>nada que no necesita.</span>
+      </h2>
+    </div>
+    <div class="features-grid">
+
+      <div class="feat-card">
+        <span class="feat-icon">📱</span>
+        <div class="feat-title en">WhatsApp Ordering</div>
+        <div class="feat-title es">Pedidos por WhatsApp</div>
+        <div class="feat-desc en">Customers browse, build their cart, and send the order directly to your WhatsApp. No payment gateway, no third-party platform — just your phone and your kitchen.</div>
+        <div class="feat-desc es">Los clientes navegan, arman su carrito y envían el pedido directamente a tu WhatsApp. Sin pasarela de pago, sin plataforma tercera — solo tu teléfono y tu cocina.</div>
+      </div>
+
+      <div class="feat-card">
+        <span class="feat-icon">🌐</span>
+        <div class="feat-title en">Fully Bilingual</div>
+        <div class="feat-title es">Completamente Bilingüe</div>
+        <div class="feat-desc en">Every menu item, label, and button in Spanish and English. Customers toggle with one tap. You enter names and descriptions once in both languages.</div>
+        <div class="feat-desc es">Cada platillo, etiqueta y botón en español e inglés. Los clientes cambian con un toque. Tú ingresas nombres y descripciones una vez en ambos idiomas.</div>
+      </div>
+
+      <div class="feat-card">
+        <span class="feat-icon">🎨</span>
+        <div class="feat-title en">Your Brand, Your Colors</div>
+        <div class="feat-title es">Tu Marca, Tus Colores</div>
+        <div class="feat-desc en">Upload your logo, choose a theme color, add a hero photo or flyer. The share card for WhatsApp and social media updates automatically.</div>
+        <div class="feat-desc es">Sube tu logo, elige un color de tema, añade una foto o flyer. La tarjeta de compartir para WhatsApp y redes se actualiza automáticamente.</div>
+      </div>
+
+      <div class="feat-card">
+        <span class="feat-icon">✏️</span>
+        <div class="feat-title en">Item Modifiers &amp; Add-ons</div>
+        <div class="feat-title es">Modificadores y Extras</div>
+        <div class="feat-desc en">Let customers choose size, add-ons, sauces, or remove ingredients. Required or optional groups, single-pick or multi-select. Extra charges supported.</div>
+        <div class="feat-desc es">Permite que los clientes elijan tamaño, extras, salsas o ingredientes a quitar. Grupos requeridos u opcionales, selección única o múltiple. Con cargos adicionales.</div>
+      </div>
+
+      <div class="feat-card">
+        <span class="feat-icon">📋</span>
+        <div class="feat-title en">Order Log</div>
+        <div class="feat-title es">Historial de Pedidos</div>
+        <div class="feat-desc en">Every order is logged automatically — customer name, items, modifiers, totals, and payment method. Browse by day, see revenue at a glance.</div>
+        <div class="feat-desc es">Cada pedido se registra automáticamente — nombre, platillos, modificadores, totales y método de pago. Navega por día, ve los ingresos de un vistazo.</div>
+      </div>
+
+      <div class="feat-card">
+        <span class="feat-icon">🖨️</span>
+        <div class="feat-title en">QR Code &amp; Print Flyer</div>
+        <div class="feat-title es">Código QR y Flyer Imprimible</div>
+        <div class="feat-desc en">A full-screen QR code and a print-ready A4 flyer are generated from your data. Put the QR at your table, truck window, or event booth. Print and share.</div>
+        <div class="feat-desc es">Un código QR de pantalla completa y un flyer listo para imprimir se generan con tus datos. Coloca el QR en tu mesa, ventanilla o stand. Imprime y comparte.</div>
+      </div>
+
+      <div class="feat-card">
+        <span class="feat-icon">⏱️</span>
+        <div class="feat-title en">Time Slot Scheduling</div>
+        <div class="feat-title es">Horarios de Entrega</div>
+        <div class="feat-desc en">Offer selectable pickup or delivery windows. Set the interval (15 / 30 / 60 min) and max orders per slot to prevent kitchen overload.</div>
+        <div class="feat-desc es">Ofrece ventanas de recogida o entrega seleccionables. Define el intervalo (15/30/60 min) y el máximo de pedidos por turno para no sobrecargar la cocina.</div>
+      </div>
+
+      <div class="feat-card">
+        <span class="feat-icon">📲</span>
+        <div class="feat-title en">Works on Any Device</div>
+        <div class="feat-title es">Funciona en Cualquier Dispositivo</div>
+        <div class="feat-desc en">No app to download for customers or for you. The menu and admin panel are web-based — fast on any phone, tablet, or computer. Add to home screen for instant access.</div>
+        <div class="feat-desc es">Sin app que descargar para clientes ni para ti. El menú y el panel admin son web — rápido en cualquier teléfono, tablet o computadora. Añade a la pantalla de inicio.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how">
+  <div class="wrap">
+    <div class="how-header">
+      <p class="section-label">
+        <span class="en">How It Works</span>
+        <span class="es">Cómo Funciona</span>
+      </p>
+      <h2 class="section-title">
+        <span class="en">Live in three steps.</span>
+        <span class="es">En línea en tres pasos.</span>
+      </h2>
+    </div>
+    <div class="steps-row">
+      <div class="how-step">
+        <div class="how-step-n">1</div>
+        <div class="how-step-title en">We build your menu</div>
+        <div class="how-step-title es">Construimos tu menú</div>
+        <div class="how-step-desc en">Share your items, prices, and photos. We set up your brand, colors, and contact details. Usually done within 24 hours.</div>
+        <div class="how-step-desc es">Comparte tus platillos, precios y fotos. Configuramos tu marca, colores y datos de contacto. Generalmente listo en 24 horas.</div>
+      </div>
+      <div class="how-step">
+        <div class="how-step-n">2</div>
+        <div class="how-step-title en">You share your link</div>
+        <div class="how-step-title es">Compartes tu enlace</div>
+        <div class="how-step-desc en">Post your menu URL or QR code on Instagram, WhatsApp stories, your table, or event flyer. Customers scan and order instantly.</div>
+        <div class="how-step-desc es">Publica tu URL o código QR en Instagram, historias de WhatsApp, tu mesa o tu flyer. Los clientes escanean y piden al instante.</div>
+      </div>
+      <div class="how-step">
+        <div class="how-step-n">3</div>
+        <div class="how-step-title en">Orders come to you</div>
+        <div class="how-step-title es">Los pedidos llegan a ti</div>
+        <div class="how-step-desc en">Each order arrives as a formatted WhatsApp message with the customer's name, items, and total. Confirm, cook, deliver. Simple.</div>
+        <div class="how-step-desc es">Cada pedido llega como un mensaje formateado de WhatsApp con el nombre del cliente, artículos y total. Confirma, cocina, entrega. Simple.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHO IT'S FOR -->
+<section class="who">
+  <div class="wrap">
+    <div class="who-header">
+      <p class="section-label">
+        <span class="en">Who It's For</span>
+        <span class="es">Para Quién Es</span>
+      </p>
+      <h2 class="section-title">
+        <span class="en">Built for every kind of food business.</span>
+        <span class="es">Para todo tipo de negocio de comida.</span>
+      </h2>
+      <p class="section-sub">
+        <span class="en">If you sell food and take orders on your phone, this was made for you.</span>
+        <span class="es">Si vendes comida y tomas pedidos por teléfono, esto fue hecho para ti.</span>
+      </p>
+    </div>
+    <div class="who-grid">
+      <div class="who-chip"><span>🚚</span> <span class="en">Food Trucks</span><span class="es">Food Trucks</span></div>
+      <div class="who-chip"><span>🏠</span> <span class="en">Home Kitchens</span><span class="es">Cocinas en Casa</span></div>
+      <div class="who-chip"><span>🍽️</span> <span class="en">Small Restaurants</span><span class="es">Restaurantes Pequeños</span></div>
+      <div class="who-chip"><span>🎉</span> <span class="en">Caterers</span><span class="es">Servicios de Catering</span></div>
+      <div class="who-chip"><span>⛺</span> <span class="en">Pop-ups &amp; Events</span><span class="es">Pop-ups y Eventos</span></div>
+      <div class="who-chip"><span>🥡</span> <span class="en">Takeout Spots</span><span class="es">Locales de Para Llevar</span></div>
+      <div class="who-chip"><span>🍱</span> <span class="en">Meal Prep Services</span><span class="es">Servicios de Meal Prep</span></div>
+      <div class="who-chip"><span>☕</span> <span class="en">Cafés &amp; Bakeries</span><span class="es">Cafeterías y Panaderías</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT'S INCLUDED -->
+<section class="included">
+  <div class="wrap">
+    <div class="included-header">
+      <p class="section-label">
+        <span class="en">Everything Included</span>
+        <span class="es">Todo Incluido</span>
+      </p>
+      <h2 class="section-title">
+        <span class="en">One setup. Everything you need.</span>
+        <span class="es">Un setup. Todo lo que necesitas.</span>
+      </h2>
+    </div>
+    <ul class="included-list">
+      <li><span class="check">✓</span> <span class="en">Hosted menu on your own URL</span><span class="es">Menú alojado en tu propia URL</span></li>
+      <li><span class="check">✓</span> <span class="en">Full admin panel, any device</span><span class="es">Panel admin completo, cualquier dispositivo</span></li>
+      <li><span class="check">✓</span> <span class="en">Unlimited menu items &amp; photos</span><span class="es">Items y fotos ilimitados</span></li>
+      <li><span class="check">✓</span> <span class="en">Item modifiers with price add-ons</span><span class="es">Modificadores con cargos adicionales</span></li>
+      <li><span class="check">✓</span> <span class="en">WhatsApp order integration</span><span class="es">Integración de pedidos por WhatsApp</span></li>
+      <li><span class="check">✓</span> <span class="en">Pickup, delivery &amp; dine-in modes</span><span class="es">Modos de recogida, entrega y comedor</span></li>
+      <li><span class="check">✓</span> <span class="en">Daily order log with revenue summary</span><span class="es">Historial diario de pedidos con resumen</span></li>
+      <li><span class="check">✓</span> <span class="en">Bilingual ES / EN storefront</span><span class="es">Tienda bilingüe ES / EN</span></li>
+      <li><span class="check">✓</span> <span class="en">QR code &amp; printable flyer</span><span class="es">Código QR y flyer imprimible</span></li>
+      <li><span class="check">✓</span> <span class="en">WhatsApp &amp; social share card</span><span class="es">Tarjeta de compartir para WA y redes</span></li>
+      <li><span class="check">✓</span> <span class="en">Pickup time slot scheduling</span><span class="es">Horarios de recogida</span></li>
+      <li><span class="check">✓</span> <span class="en">Tax &amp; delivery fee calculator</span><span class="es">Calculadora de impuesto y envío</span></li>
+      <li><span class="check">✓</span> <span class="en">Custom brand colors &amp; logo</span><span class="es">Colores de marca y logo personalizados</span></li>
+      <li><span class="check">✓</span> <span class="en">Fast setup, usually within 24 h</span><span class="es">Setup rápido, generalmente en 24 h</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="cta">
+  <div class="wrap">
+    <p class="section-label" style="justify-content:center;display:flex">
+      <span class="en">Ready to go live?</span>
+      <span class="es">¿Listo para estar en línea?</span>
+    </p>
+    <h2 class="section-title">
+      <span class="en">Get your menu online today.</span>
+      <span class="es">Pon tu menú en línea hoy.</span>
+    </h2>
+    <p class="section-sub" style="margin:0 auto 36px">
+      <span class="en">Send us a message and we'll have your menu live and accepting orders within 24 hours. No long contracts. No technical knowledge needed.</span>
+      <span class="es">Envíanos un mensaje y tendremos tu menú en línea y recibiendo pedidos en 24 horas. Sin contratos largos. Sin conocimientos técnicos necesarios.</span>
+    </p>
+    <div class="cta-buttons">
+      <a href="https://wa.me/14049925807?text=Hola%2C%20me%20interesa%20LíneaSur%20Menu%20Express%20para%20mi%20negocio" target="_blank" class="btn-primary">
+        <span class="en">Message us on WhatsApp</span>
+        <span class="es">Escríbenos por WhatsApp</span>
+      </a>
+      <a href="https://lineasur-menu.vercel.app" target="_blank" class="btn-secondary">
+        <span class="en">See Live Demo</span>
+        <span class="es">Ver Demo en Vivo</span>
+      </a>
+    </div>
+    <p class="cta-note">
+      <span class="en">Questions? We speak English &amp; Spanish.</span>
+      <span class="es">¿Preguntas? Hablamos español e inglés.</span>
+    </p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <strong>LíneaSur Menu Express</strong> &nbsp;·&nbsp;
+  <span class="en">Digital menu and ordering system for food businesses</span>
+  <span class="es">Sistema de menú digital y pedidos para negocios de comida</span>
+  &nbsp;·&nbsp; <a href="https://lineasur-menu.vercel.app" target="_blank" style="color:var(--accent);text-decoration:none">lineasur-menu.vercel.app</a>
+</footer>
+
+<script>
+  function setLang(lang) {
+    document.documentElement.setAttribute('data-lang', lang);
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    document.getElementById('btn-es').classList.toggle('active', lang === 'es');
+    document.documentElement.setAttribute('lang', lang);
+  }
+
+  function toggleTheme() {
+    const root = document.documentElement;
+    const isDark = root.getAttribute('data-theme') === 'dark'
+      || (!root.getAttribute('data-theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  }
+</script>
+</body>
+</html>

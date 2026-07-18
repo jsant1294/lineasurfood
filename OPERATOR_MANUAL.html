@@ -1,0 +1,711 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Operator Manual — LíneaSur Menu Express</title>
+<style>
+  :root {
+    --bg: #F7F5F1;
+    --surface: #FFFFFF;
+    --text: #1A1714;
+    --muted: #7A7368;
+    --accent: #B83A0C;
+    --accent-light: #FFF0EB;
+    --gold: #8A6A1A;
+    --border: #E2DDD5;
+    --step: #B83A0C;
+    --tip-bg: #F0F7EE;
+    --tip-border: #5A9A4A;
+    --warn-bg: #FFF8ED;
+    --warn-border: #D4860A;
+    --code-bg: #EDEAE4;
+    --nav-w: 220px;
+    --font-display: Georgia, 'Times New Roman', serif;
+    --font-body: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-mono: 'Courier New', Courier, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #111009;
+      --surface: #1C1A15;
+      --text: #EDE9E0;
+      --muted: #9A9082;
+      --accent: #E04A18;
+      --accent-light: #2A1A12;
+      --gold: #C8A04A;
+      --border: #2A2620;
+      --step: #E04A18;
+      --tip-bg: #0E1A0E;
+      --tip-border: #4A8A3A;
+      --warn-bg: #1A1408;
+      --warn-border: #C47A0A;
+      --code-bg: #252018;
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #F7F5F1; --surface: #FFFFFF; --text: #1A1714; --muted: #7A7368;
+    --accent: #B83A0C; --accent-light: #FFF0EB; --gold: #8A6A1A;
+    --border: #E2DDD5; --step: #B83A0C; --tip-bg: #F0F7EE; --tip-border: #5A9A4A;
+    --warn-bg: #FFF8ED; --warn-border: #D4860A; --code-bg: #EDEAE4;
+  }
+  :root[data-theme="dark"] {
+    --bg: #111009; --surface: #1C1A15; --text: #EDE9E0; --muted: #9A9082;
+    --accent: #E04A18; --accent-light: #2A1A12; --gold: #C8A04A;
+    --border: #2A2620; --step: #E04A18; --tip-bg: #0E1A0E; --tip-border: #4A8A3A;
+    --warn-bg: #1A1408; --warn-border: #C47A0A; --code-bg: #252018;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.65;
+    min-height: 100vh;
+  }
+
+  /* ── TOP BAR ── */
+  .topbar {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px;
+  }
+  .topbar-brand {
+    display: flex; align-items: center; gap: 10px;
+  }
+  .topbar-logo {
+    width: 28px; height: 28px; border-radius: 6px;
+    background: var(--accent); color: #fff;
+    font-family: var(--font-display); font-weight: bold; font-size: 14px;
+    display: grid; place-items: center; flex-shrink: 0;
+  }
+  .topbar-title {
+    font-family: var(--font-display); font-weight: bold; font-size: 15px; color: var(--text);
+  }
+  .topbar-sub { font-size: 12px; color: var(--muted); }
+  .theme-toggle {
+    background: none; border: 1px solid var(--border); border-radius: 6px;
+    color: var(--muted); font-size: 12px; padding: 4px 10px; cursor: pointer;
+    font-family: var(--font-body);
+  }
+  .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ── LAYOUT ── */
+  .layout {
+    display: flex;
+    max-width: 1060px;
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+
+  /* ── SIDEBAR NAV ── */
+  .sidebar {
+    width: var(--nav-w);
+    flex-shrink: 0;
+    padding: 32px 0 80px;
+  }
+  .sidebar-inner {
+    position: sticky;
+    top: 64px;
+  }
+  .nav-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--muted);
+    padding: 0 12px 8px;
+  }
+  .nav-list { list-style: none; }
+  .nav-list li a {
+    display: block; padding: 6px 12px;
+    font-size: 13px; color: var(--muted);
+    text-decoration: none; border-radius: 6px;
+    border-left: 2px solid transparent;
+    transition: color 0.15s, border-color 0.15s, background 0.15s;
+  }
+  .nav-list li a:hover { color: var(--text); background: var(--accent-light); border-left-color: var(--accent); }
+  .nav-list li a.active { color: var(--accent); font-weight: 600; border-left-color: var(--accent); background: var(--accent-light); }
+
+  /* ── MAIN CONTENT ── */
+  main {
+    flex: 1;
+    padding: 40px 0 80px 40px;
+    min-width: 0;
+    max-width: 720px;
+  }
+
+  /* ── PAGE HEADER ── */
+  .page-header { margin-bottom: 40px; padding-bottom: 24px; border-bottom: 1px solid var(--border); }
+  .page-header h1 {
+    font-family: var(--font-display); font-size: 28px; font-weight: bold;
+    color: var(--text); line-height: 1.2; margin-bottom: 8px;
+    text-wrap: balance;
+  }
+  .page-header p { color: var(--muted); font-size: 15px; }
+  .version-badge {
+    display: inline-block; margin-top: 12px;
+    font-family: var(--font-mono); font-size: 11px;
+    background: var(--code-bg); color: var(--muted);
+    padding: 3px 8px; border-radius: 4px;
+  }
+
+  /* ── SECTIONS ── */
+  .doc-section { margin-bottom: 56px; scroll-margin-top: 80px; }
+  .section-header {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 20px; padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-number {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--accent); color: #fff;
+    font-family: var(--font-display); font-size: 13px; font-weight: bold;
+    display: grid; place-items: center; flex-shrink: 0;
+  }
+  h2 {
+    font-family: var(--font-display); font-size: 20px; font-weight: bold;
+    color: var(--text);
+  }
+  h3 {
+    font-family: var(--font-body); font-size: 14px; font-weight: 700;
+    color: var(--muted); text-transform: uppercase; letter-spacing: 0.07em;
+    margin: 24px 0 10px;
+  }
+  p { margin-bottom: 12px; color: var(--text); font-size: 15px; }
+  p:last-child { margin-bottom: 0; }
+
+  /* ── STEPS ── */
+  .steps { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .steps li {
+    display: flex; gap: 14px; align-items: flex-start;
+    padding: 14px 16px;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+  }
+  .step-n {
+    width: 24px; height: 24px; border-radius: 50%;
+    background: var(--step); color: #fff;
+    font-size: 12px; font-weight: 700;
+    display: grid; place-items: center; flex-shrink: 0; margin-top: 1px;
+  }
+  .step-body { flex: 1; min-width: 0; }
+  .step-title { font-weight: 700; font-size: 14px; margin-bottom: 3px; }
+  .step-desc { font-size: 14px; color: var(--muted); line-height: 1.5; }
+
+  /* ── CALLOUTS ── */
+  .tip, .warn {
+    display: flex; gap: 12px; align-items: flex-start;
+    padding: 14px 16px; border-radius: 10px; margin: 16px 0;
+    border-left: 3px solid;
+  }
+  .tip { background: var(--tip-bg); border-left-color: var(--tip-border); }
+  .warn { background: var(--warn-bg); border-left-color: var(--warn-border); }
+  .callout-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .callout-body { font-size: 14px; line-height: 1.55; }
+  .callout-body strong { display: block; margin-bottom: 2px; font-size: 13px; }
+  .tip .callout-body strong { color: var(--tip-border); }
+  .warn .callout-body strong { color: var(--warn-border); }
+
+  /* ── CODE / URL ── */
+  code {
+    font-family: var(--font-mono); font-size: 13px;
+    background: var(--code-bg); color: var(--accent);
+    padding: 2px 6px; border-radius: 4px;
+  }
+  .url-block {
+    display: block; font-family: var(--font-mono); font-size: 13px;
+    background: var(--code-bg); color: var(--text);
+    padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border);
+    margin: 8px 0; word-break: break-all; text-decoration: none;
+  }
+  .url-block:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ── FEATURE TABLE ── */
+  .feat-table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 14px; }
+  .feat-table th {
+    text-align: left; font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--muted);
+    padding: 8px 10px; border-bottom: 1px solid var(--border);
+  }
+  .feat-table td {
+    padding: 10px 10px; border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .feat-table tr:last-child td { border-bottom: none; }
+  .feat-table td:first-child { font-weight: 600; white-space: nowrap; }
+  .feat-table td code { font-size: 12px; }
+
+  /* ── FIELD GRID ── */
+  .field-grid { display: flex; flex-direction: column; gap: 6px; }
+  .field-row {
+    display: grid; grid-template-columns: 160px 1fr;
+    gap: 8px; font-size: 14px; align-items: start;
+    padding: 8px 0; border-bottom: 1px solid var(--border);
+  }
+  .field-row:last-child { border-bottom: none; }
+  .field-name { font-weight: 700; color: var(--text); }
+  .field-desc { color: var(--muted); }
+
+  /* ── QUICK REF ── */
+  .quick-ref {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px; margin-top: 12px;
+  }
+  .qr-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 14px;
+  }
+  .qr-card .qr-label { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+  .qr-card .qr-value { font-size: 14px; font-weight: 600; color: var(--text); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 700px) {
+    .sidebar { display: none; }
+    main { padding: 24px 0 60px; }
+    .layout { padding: 0 20px; }
+    h2 { font-size: 18px; }
+    .page-header h1 { font-size: 22px; }
+    .field-row { grid-template-columns: 1fr; }
+  }
+
+  @media print {
+    .topbar, .sidebar { display: none; }
+    main { padding: 0; }
+    .steps li, .tip, .warn { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">
+    <div class="topbar-logo">L</div>
+    <div>
+      <div class="topbar-title">LíneaSur Menu Express</div>
+      <div class="topbar-sub">Operator Manual</div>
+    </div>
+  </div>
+  <button class="theme-toggle" onclick="toggleTheme()">Toggle theme</button>
+</div>
+
+<div class="layout">
+
+  <nav class="sidebar">
+    <div class="sidebar-inner">
+      <div class="nav-label">Contents</div>
+      <ul class="nav-list" id="nav-list">
+        <li><a href="#getting-started">1. Getting Started</a></li>
+        <li><a href="#business">2. Business Settings</a></li>
+        <li><a href="#menu">3. Menu &amp; Items</a></li>
+        <li><a href="#modifiers">4. Modifiers</a></li>
+        <li><a href="#fulfillment">5. Fulfillment &amp; Orders</a></li>
+        <li><a href="#order-log">6. Order Log</a></li>
+        <li><a href="#sharing">7. QR Code &amp; Flyer</a></li>
+        <li><a href="#tips">8. Tips &amp; Troubleshooting</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main id="main-content">
+
+    <div class="page-header">
+      <h1>LíneaSur Menu Express<br>Operator Manual</h1>
+      <p>Everything you need to manage your digital menu, take orders, and grow your business.</p>
+      <span class="version-badge">v1.5 · July 2026</span>
+    </div>
+
+    <!-- 1 -->
+    <section class="doc-section" id="getting-started">
+      <div class="section-header">
+        <div class="section-number">1</div>
+        <h2>Getting Started</h2>
+      </div>
+      <p>Your menu is live at a public URL. The admin panel is where you manage everything — no app installation required, works from any device.</p>
+
+      <h3>Your URLs</h3>
+      <p>Your customer-facing menu:</p>
+      <code class="url-block">https://lineasur-menu.vercel.app</code>
+      <p>Your admin panel:</p>
+      <code class="url-block">https://lineasur-menu.vercel.app/admin</code>
+
+      <h3>Accessing the Admin Panel</h3>
+      <ol class="steps">
+        <li>
+          <div class="step-n">1</div>
+          <div class="step-body">
+            <div class="step-title">Open the admin URL in any browser</div>
+            <div class="step-desc">Works on phone, tablet, or computer. Bookmark it for quick access.</div>
+          </div>
+        </li>
+        <li>
+          <div class="step-n">2</div>
+          <div class="step-body">
+            <div class="step-title">Enter your 6-digit PIN</div>
+            <div class="step-desc">Your PIN was provided when the system was set up. Contact support if you've lost it.</div>
+          </div>
+        </li>
+        <li>
+          <div class="step-n">3</div>
+          <div class="step-body">
+            <div class="step-title">You're in — three tabs at the top</div>
+            <div class="step-desc"><strong>Business</strong> · <strong>Menu</strong> · <strong>Orders</strong>. Start with Menu to review your items.</div>
+          </div>
+        </li>
+      </ol>
+
+      <div class="warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body"><strong>Keep your PIN private</strong> Anyone with the PIN can edit your menu and business settings. Do not share it publicly.</div>
+      </div>
+    </section>
+
+    <!-- 2 -->
+    <section class="doc-section" id="business">
+      <div class="section-header">
+        <div class="section-number">2</div>
+        <h2>Business Settings</h2>
+      </div>
+      <p>Go to <strong>Admin → Business tab</strong>. Always hit <strong>Save Business</strong> at the bottom after making changes.</p>
+
+      <h3>Identity</h3>
+      <div class="field-grid">
+        <div class="field-row"><div class="field-name">Business Name</div><div class="field-desc">Displayed as the main heading on your menu page and in the browser tab.</div></div>
+        <div class="field-row"><div class="field-name">Tagline</div><div class="field-desc">Short phrase below your name. Keep it under 60 characters.</div></div>
+        <div class="field-row"><div class="field-name">Logo</div><div class="field-desc">Square image. Tap the logo area, crop your photo, and it uploads automatically. Recommended: 400 × 400 px.</div></div>
+        <div class="field-row"><div class="field-name">Default Language</div><div class="field-desc">ES (Spanish) or EN (English). Customers can always switch — this sets the opening language.</div></div>
+      </div>
+
+      <h3>Contact &amp; Location</h3>
+      <div class="field-grid">
+        <div class="field-row"><div class="field-name">WhatsApp Number</div><div class="field-desc">Include country code, no spaces or dashes. Example: <code>14045551234</code></div></div>
+        <div class="field-row"><div class="field-name">Phone</div><div class="field-desc">Shown in the footer and as a tap-to-call link.</div></div>
+        <div class="field-row"><div class="field-name">Address</div><div class="field-desc">Links to Google Maps automatically.</div></div>
+        <div class="field-row"><div class="field-name">Service Areas</div><div class="field-desc">Comma-separated list of neighborhoods or cities you serve. Example: <code>Norcross, Doraville, Duluth</code></div></div>
+        <div class="field-row"><div class="field-name">Hours</div><div class="field-desc">Opens and Closes times control the "Open Now" badge on your storefront. Use 24-hour format.</div></div>
+      </div>
+
+      <h3>Hero (storefront banner)</h3>
+      <div class="field-grid">
+        <div class="field-row"><div class="field-name">Photo</div><div class="field-desc">Upload a wide banner photo. Best size: 1200 × 675 px.</div></div>
+        <div class="field-row"><div class="field-name">Poster</div><div class="field-desc">Use a flyer or promotional graphic as your banner.</div></div>
+        <div class="field-row"><div class="field-name">Branded</div><div class="field-desc">No photo — uses your brand colors in an animated gradient pattern.</div></div>
+        <div class="field-row"><div class="field-name">Hero Badge</div><div class="field-desc">A small italic label overlaid on the banner. Example: <em>"Lo hacemos conveniente"</em></div></div>
+      </div>
+
+      <h3>Theme Color</h3>
+      <p>Choose from the color swatches in the Theme section. The color affects buttons, accents, and the OG share card. Hit Save after changing.</p>
+    </section>
+
+    <!-- 3 -->
+    <section class="doc-section" id="menu">
+      <div class="section-header">
+        <div class="section-number">3</div>
+        <h2>Menu &amp; Items</h2>
+      </div>
+      <p>Go to <strong>Admin → Menu tab</strong>. Changes are saved when you hit <strong>Save Menu</strong> at the bottom. Changes are visible to customers immediately after saving.</p>
+
+      <h3>Adding a New Item</h3>
+      <ol class="steps">
+        <li>
+          <div class="step-n">1</div>
+          <div class="step-body">
+            <div class="step-title">Tap "Add Item" at the top</div>
+            <div class="step-desc">A new card appears at the bottom of the list.</div>
+          </div>
+        </li>
+        <li>
+          <div class="step-n">2</div>
+          <div class="step-body">
+            <div class="step-title">Fill in the name in both languages</div>
+            <div class="step-desc">Nombre (ES) and Name (EN) are both shown on the menu based on the customer's language.</div>
+          </div>
+        </li>
+        <li>
+          <div class="step-n">3</div>
+          <div class="step-body">
+            <div class="step-title">Set the category and price</div>
+            <div class="step-desc">Category groups items on the menu (e.g. Entradas, Platos Fuertes, Bebidas). Price is in US dollars.</div>
+          </div>
+        </li>
+        <li>
+          <div class="step-n">4</div>
+          <div class="step-body">
+            <div class="step-title">Add a photo (recommended)</div>
+            <div class="step-desc">Tap the image box → pick a photo → crop → wait for the upload spinner to finish before saving.</div>
+          </div>
+        </li>
+        <li>
+          <div class="step-n">5</div>
+          <div class="step-body">
+            <div class="step-title">Add descriptions (optional)</div>
+            <div class="step-desc">Short descriptions in both languages appear in the item detail popup.</div>
+          </div>
+        </li>
+        <li>
+          <div class="step-n">6</div>
+          <div class="step-body">
+            <div class="step-title">Hit Save Menu</div>
+            <div class="step-desc">You'll see "Saved ✓". Changes go live for all customers instantly.</div>
+          </div>
+        </li>
+      </ol>
+
+      <h3>Item Controls</h3>
+      <table class="feat-table">
+        <thead><tr><th>Button</th><th>What it does</th></tr></thead>
+        <tbody>
+          <tr><td>Featured ★</td><td>Highlights the item in the featured row at the top of the menu. Use for your best sellers.</td></tr>
+          <tr><td>Available / Sold Out</td><td>Toggles visibility. Sold Out items are greyed out and can't be ordered.</td></tr>
+          <tr><td>↑ ↓ arrows</td><td>Reorders items within the list. Items appear on the menu in this order.</td></tr>
+          <tr><td>Copy icon</td><td>Duplicates the item — useful for creating variations.</td></tr>
+          <tr><td>Trash icon</td><td>Permanently removes the item. This cannot be undone.</td></tr>
+        </tbody>
+      </table>
+
+      <div class="tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body"><strong>Tip</strong> Mark items "Sold Out" instead of deleting them when you run out for the day. It's faster to toggle back than to re-enter everything.</div>
+      </div>
+    </section>
+
+    <!-- 4 -->
+    <section class="doc-section" id="modifiers">
+      <div class="section-header">
+        <div class="section-number">4</div>
+        <h2>Modifiers</h2>
+      </div>
+      <p>Modifiers let customers customize an item — choose a size, pick add-ons, or select extras that affect the price. They appear as tap-to-select chips in the item popup.</p>
+
+      <h3>Setting Up a Modifier Group</h3>
+      <ol class="steps">
+        <li>
+          <div class="step-n">1</div>
+          <div class="step-body">
+            <div class="step-title">Find the item in the Menu tab</div>
+            <div class="step-desc">Scroll to the item you want to add options to.</div>
+          </div>
+        </li>
+        <li>
+          <div class="step-n">2</div>
+          <div class="step-body">
+            <div class="step-title">Click "Modifiers ▼" to expand</div>
+            <div class="step-desc">Below the description fields on each item card.</div>
+          </div>
+        </li>
+        <li>
+          <div class="step-n">3</div>
+          <div class="step-body">
+            <div class="step-title">Click "Add modifier group"</div>
+            <div class="step-desc">Enter the group name in Spanish and English (e.g. "Tamaño" / "Size").</div>
+          </div>
+        </li>
+        <li>
+          <div class="step-n">4</div>
+          <div class="step-body">
+            <div class="step-title">Set Required and Max picks</div>
+            <div class="step-desc"><strong>Required:</strong> customer must choose before adding to cart. <strong>Max picks:</strong> 1 = pick one only, 2 or 3 = pick up to that many.</div>
+          </div>
+        </li>
+        <li>
+          <div class="step-n">5</div>
+          <div class="step-body">
+            <div class="step-title">Add options with "Add option"</div>
+            <div class="step-desc">Each option needs a name in both languages. Set a price delta (e.g. <code>1.50</code> for +$1.50). Leave at <code>0</code> for no extra charge.</div>
+          </div>
+        </li>
+        <li>
+          <div class="step-n">6</div>
+          <div class="step-body">
+            <div class="step-title">Save Menu when done</div>
+            <div class="step-desc">Modifier selections appear in the WhatsApp order message and in your order log.</div>
+          </div>
+        </li>
+      </ol>
+
+      <h3>Examples</h3>
+      <table class="feat-table">
+        <thead><tr><th>Group (ES / EN)</th><th>Required</th><th>Max</th><th>Options</th></tr></thead>
+        <tbody>
+          <tr><td>Tamaño / Size</td><td>Yes</td><td>1</td><td>Chico $0 · Regular $0 · Grande +$2.00</td></tr>
+          <tr><td>Extras / Add-ons</td><td>No</td><td>3</td><td>Aguacate +$1.50 · Queso +$1.00 · Jalapeños $0</td></tr>
+          <tr><td>Sin / Remove</td><td>No</td><td>3</td><td>Sin cebolla · Sin cilantro · Sin chile</td></tr>
+          <tr><td>Salsa</td><td>Yes</td><td>1</td><td>Roja · Verde · Ambas</td></tr>
+        </tbody>
+      </table>
+
+      <div class="tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body"><strong>Tip</strong> Keep modifier groups to 3 or fewer per item. Too many choices slow down ordering. If you have many options, consider splitting into separate menu items.</div>
+      </div>
+    </section>
+
+    <!-- 5 -->
+    <section class="doc-section" id="fulfillment">
+      <div class="section-header">
+        <div class="section-number">5</div>
+        <h2>Fulfillment &amp; Orders</h2>
+      </div>
+      <p>Go to <strong>Admin → Business → Fulfillment section</strong> to control how customers receive their orders.</p>
+
+      <h3>Fulfillment Modes</h3>
+      <div class="field-grid">
+        <div class="field-row"><div class="field-name">Pickup</div><div class="field-desc">Customer comes to pick up. Shows your address at checkout.</div></div>
+        <div class="field-row"><div class="field-name">Delivery</div><div class="field-desc">You deliver to customer. Asks for their address. Add a delivery fee if applicable.</div></div>
+        <div class="field-row"><div class="field-name">Dine-In</div><div class="field-desc">Customer eats on-site. Asks for party size at checkout.</div></div>
+      </div>
+
+      <h3>Order Minimums &amp; Fees</h3>
+      <div class="field-grid">
+        <div class="field-row"><div class="field-name">Minimum Order</div><div class="field-desc">Set per fulfillment mode. Customer cannot submit if their cart is below this amount.</div></div>
+        <div class="field-row"><div class="field-name">Delivery Fee</div><div class="field-desc">Added to the subtotal when delivery mode is selected. Set to <code>0</code> for free delivery.</div></div>
+        <div class="field-row"><div class="field-name">Tax</div><div class="field-desc">Enable and enter your tax rate (%). Tax is calculated on the subtotal only, not on the delivery fee.</div></div>
+      </div>
+
+      <h3>Time Slots</h3>
+      <p>Optional feature. When enabled, customers pick a time window for their pickup or delivery. Set the interval (15 / 30 / 60 min) and the maximum orders per slot.</p>
+
+      <div class="tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body"><strong>Order flow reminder</strong> Customers submit via WhatsApp — your WhatsApp receives the order, you fulfill it, you respond to confirm. The app does not process payments; it is an ordering channel only.</div>
+      </div>
+    </section>
+
+    <!-- 6 -->
+    <section class="doc-section" id="order-log">
+      <div class="section-header">
+        <div class="section-number">6</div>
+        <h2>Order Log</h2>
+      </div>
+      <p>Go to <strong>Admin → Orders tab</strong>. Every checkout that a customer submits is logged here automatically.</p>
+
+      <ol class="steps">
+        <li>
+          <div class="step-n">1</div>
+          <div class="step-body">
+            <div class="step-title">Today's orders load by default</div>
+            <div class="step-desc">The summary shows total order count and revenue for the selected day.</div>
+          </div>
+        </li>
+        <li>
+          <div class="step-n">2</div>
+          <div class="step-body">
+            <div class="step-title">Use ← Prev / Next → to browse other dates</div>
+            <div class="step-desc">Orders are stored by calendar day. Navigate backward to see historical orders.</div>
+          </div>
+        </li>
+        <li>
+          <div class="step-n">3</div>
+          <div class="step-body">
+            <div class="step-title">Tap "Show details" on any order</div>
+            <div class="step-desc">Expands to show every item ordered, modifier selections, delivery address, time slot, notes, and payment method.</div>
+          </div>
+        </li>
+      </ol>
+
+      <div class="warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body"><strong>Note</strong> The order log captures orders at the moment the customer presses the WhatsApp button. If the customer abandons the checkout screen without submitting to WhatsApp, the order is NOT logged.</div>
+      </div>
+    </section>
+
+    <!-- 7 -->
+    <section class="doc-section" id="sharing">
+      <div class="section-header">
+        <div class="section-number">7</div>
+        <h2>QR Code &amp; Flyer</h2>
+      </div>
+      <p>The admin header has quick links to two print tools:</p>
+
+      <table class="feat-table">
+        <thead><tr><th>Link</th><th>What it generates</th><th>Best use</th></tr></thead>
+        <tbody>
+          <tr><td>QR</td><td>Full-screen QR code that links to your menu</td><td>Print and display at your table, counter, or truck window</td></tr>
+          <tr><td>Flyer</td><td>Printable A4/letter flyer with logo, name, QR code, and contact info</td><td>Hand out at events, post on bulletin boards</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Share Card (OG Image)</h3>
+      <p>When you share your menu URL on WhatsApp, iMessage, or social media, a preview card automatically appears showing your business name, tagline, and theme color. No setup needed — it updates automatically when you change your business name or theme.</p>
+
+      <div class="tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body"><strong>Print tip</strong> Use your browser's Print function (Ctrl+P / Cmd+P) on the QR or Flyer page. Choose "Save as PDF" for a file you can send or print at any shop.</div>
+      </div>
+    </section>
+
+    <!-- 8 -->
+    <section class="doc-section" id="tips">
+      <div class="section-header">
+        <div class="section-number">8</div>
+        <h2>Tips &amp; Troubleshooting</h2>
+      </div>
+
+      <h3>Quick Reference</h3>
+      <div class="quick-ref">
+        <div class="qr-card"><div class="qr-label">Customer Menu</div><div class="qr-value">/ (root URL)</div></div>
+        <div class="qr-card"><div class="qr-label">Admin Panel</div><div class="qr-value">/admin</div></div>
+        <div class="qr-card"><div class="qr-label">QR Code</div><div class="qr-value">/qr</div></div>
+        <div class="qr-card"><div class="qr-label">Print Flyer</div><div class="qr-value">/flyer</div></div>
+        <div class="qr-card"><div class="qr-label">Order via WA</div><div class="qr-value">Checkout → WA button</div></div>
+        <div class="qr-card"><div class="qr-label">Share Preview</div><div class="qr-value">/opengraph-image</div></div>
+      </div>
+
+      <h3>Common Situations</h3>
+      <table class="feat-table">
+        <thead><tr><th>Situation</th><th>What to do</th></tr></thead>
+        <tbody>
+          <tr><td>Item is temporarily unavailable</td><td>Toggle it to "Sold Out" in Menu tab. Tap again to make available. Hit Save Menu.</td></tr>
+          <tr><td>Wrong price on an item</td><td>Edit the price field → Save Menu. Updates instantly.</td></tr>
+          <tr><td>Need to add a temporary special</td><td>Add Item, set as Featured ★, save. Remove or mark Sold Out when it's gone.</td></tr>
+          <tr><td>Orders not showing in log</td><td>Confirm customer actually hit the WhatsApp button and submitted. If WhatsApp opened, the order was logged.</td></tr>
+          <tr><td>Image not updating on other devices</td><td>Images update in real time. If stale, have the customer do a hard refresh (Ctrl+Shift+R / Cmd+Shift+R).</td></tr>
+          <tr><td>Lost admin PIN</td><td>Contact your system provider to reset.</td></tr>
+        </tbody>
+      </table>
+
+      <div class="tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body"><strong>Add to Home Screen</strong> On iPhone: tap Share → "Add to Home Screen." On Android: tap the browser menu → "Add to Home Screen." The admin panel works like an app without needing to download anything.</div>
+      </div>
+
+      <h3>Keeping Your Menu Fresh</h3>
+      <p>The most effective menus are updated regularly. A few habits that help:</p>
+      <ul style="margin-left: 20px; color: var(--muted); font-size: 15px; line-height: 1.8;">
+        <li>Mark sold-out items daily rather than leaving them visible</li>
+        <li>Update the hero badge or tagline for seasonal promotions</li>
+        <li>Rotate the Featured ★ items weekly to highlight different dishes</li>
+        <li>Add photos to every item — menus with photos get significantly more orders</li>
+      </ul>
+    </section>
+
+  </main>
+</div>
+
+<script>
+  // Theme toggle
+  function toggleTheme() {
+    const root = document.documentElement;
+    const current = root.getAttribute('data-theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    root.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+  }
+
+  // Active nav highlighting
+  const sections = document.querySelectorAll('.doc-section');
+  const navLinks = document.querySelectorAll('#nav-list a');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(a => a.classList.remove('active'));
+        const id = entry.target.id;
+        const link = document.querySelector(`#nav-list a[href="#${id}"]`);
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

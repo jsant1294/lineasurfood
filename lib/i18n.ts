@@ -1,0 +1,58 @@
+import { Lang } from "@/lib/types";
+
+type Dict = Record<string, { es: string; en: string }>;
+
+const T: Dict = {
+  order: { es: "Ordenar", en: "Order" },
+  pickup: { es: "Recoger", en: "Pickup" },
+  delivery: { es: "Entrega", en: "Delivery" },
+  dinein: { es: "Comer Aquí", en: "Dine-In" },
+  addToOrder: { es: "Agregar al Pedido", en: "Add to Order" },
+  cart: { es: "Carrito", en: "Cart" },
+  openNow: { es: "Abierto Ahora", en: "Open Now" },
+  closed: { es: "Cerrado", en: "Closed" },
+  serviceAreas: { es: "Áreas de Servicio", en: "Service Areas" },
+  pickupAvailable: { es: "Recoger", en: "Pickup" },
+  deliveryAvailable: { es: "Entrega", en: "Delivery" },
+  dineInAvailable: { es: "Comer Aquí", en: "Dine-In" },
+  featured: { es: "Destacado", en: "Featured" },
+  soldOut: { es: "Agotado", en: "Sold Out" },
+  all: { es: "Todo", en: "All" },
+  quantity: { es: "Cantidad", en: "Quantity" },
+  notes: { es: "Notas", en: "Notes" },
+  notesPlaceholder: { es: "Ej: salsa extra, sin cebolla, picante…", en: "Ex: extra salsa, no onion, spicy…" },
+  subtotal: { es: "Subtotal", en: "Subtotal" },
+  deliveryFee: { es: "Costo de Entrega", en: "Delivery Fee" },
+  tax: { es: "Impuesto", en: "Tax" },
+  total: { es: "Total", en: "Total" },
+  checkout: { es: "Finalizar Pedido", en: "Checkout" },
+  emptyCart: { es: "Tu carrito está vacío", en: "Your cart is empty" },
+  emptyCartHint: { es: "Agrega platillos del menú para empezar.", en: "Add dishes from the menu to start." },
+  yourOrder: { es: "Tu Pedido", en: "Your Order" },
+  customerName: { es: "Nombre", en: "Name" },
+  phone: { es: "Teléfono", en: "Phone" },
+  howReceive: { es: "¿Cómo lo quieres?", en: "How do you want it?" },
+  address: { es: "Dirección", en: "Address" },
+  pickupTime: { es: "Hora", en: "Time" },
+  partySize: { es: "¿Cuántas personas?", en: "Party size" },
+  orderNotes: { es: "Notas del Pedido", en: "Order Notes" },
+  paymentMethod: { es: "Método de Pago", en: "Payment Method" },
+  generateOrder: { es: "Enviar por WhatsApp", en: "Send via WhatsApp" },
+  minOrderNotice: { es: "Pedido mínimo", en: "Minimum order" },
+  remove: { es: "Quitar", en: "Remove" },
+  backToMenu: { es: "Volver al Menú", en: "Back to Menu" },
+  cash: { es: "Efectivo", en: "Cash" },
+  card: { es: "Tarjeta", en: "Card" },
+  payments: { es: "Pagos Aceptados", en: "Payments Accepted" },
+  scanToOrder: { es: "Escanea para Ordenar", en: "Scan to Order" },
+  callUs: { es: "Llámanos", en: "Call Us" },
+  repeatOrder: { es: "Repetir Último Pedido", en: "Repeat Last Order" },
+  selectTime: { es: "Selecciona una hora", en: "Select a time" },
+  noSlots: { es: "Sin horarios disponibles hoy", en: "No times available today" },
+  comeEat: { es: "Ven a comer con nosotros", en: "Come eat with us" },
+  noModes: { es: "Este negocio no acepta pedidos en línea por ahora.", en: "This business isn't taking online orders right now." },
+};
+
+export function t(key: string, lang: Lang): string {
+  return T[key]?.[lang] ?? key;
+}
