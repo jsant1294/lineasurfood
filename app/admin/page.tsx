@@ -12,10 +12,10 @@ import Link from "next/link";
 import {
   Store, UtensilsCrossed, Eye, QrCode, Printer, Plus, Trash2, Copy,
   Star, ArrowUp, ArrowDown, Check, RotateCcw, Save, Lock, ClipboardList,
-  Settings2, X,
+  Settings2, X, CreditCard, Eye as EyeIcon, EyeOff,
 } from "lucide-react";
 
-type Tab = "business" | "menu" | "orders";
+type Tab = "business" | "menu" | "orders" | "payments";
 
 function PinGate({ onUnlock }: { onUnlock: () => void }) {
   const [pin, setPin] = useState("");
@@ -120,6 +120,9 @@ export default function AdminPage() {
           <button className="chip px-4 py-2 text-sm font-bold flex items-center gap-2 whitespace-nowrap" data-active={tab === "orders"} onClick={() => setTab("orders")}>
             <ClipboardList size={16} /> Orders
           </button>
+          <button className="chip px-4 py-2 text-sm font-bold flex items-center gap-2 whitespace-nowrap" data-active={tab === "payments"} onClick={() => setTab("payments")}>
+            <CreditCard size={16} /> Payments
+          </button>
         </div>
 
         {tab === "business" ? (
@@ -130,6 +133,11 @@ export default function AdminPage() {
         ) : tab === "menu" ? (
           <MenuTab menu={menu} onSave={async (m) => {
             const ok = await saveMenu(m);
+            flash(ok ? "Saved ✓" : "Save failed — try again");
+          }} />
+        ) : tab === "payments" ? (
+          <PaymentsTab business={business} onSave={async (b: Business) => {
+            const ok = await saveBusiness(b);
             flash(ok ? "Saved ✓" : "Save failed — try again");
           }} />
         ) : (
@@ -308,6 +316,129 @@ function OrderCard({ order }: { order: OrderRecord }) {
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+/* ---------------- PAYMENTS TAB ---------------- */
+function SecretInput({ label, value, onChange, placeholder }: {
+  label: string; value: string; onChange: (v: string) => void; placeholder?: string;
+}) {
+  const [visible, setVisible] = useState(false);
+  return (
+    <div className="flex flex-col gap-1">
+      <span className="text-sm font-bold">{label}</span>
+      <div className="relative">
+        <input
+          type={visible ? "text" : "password"}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder={placeholder}
+          className="w-full p-2.5 pr-10 font-mono text-sm"
+        />
+        <button type="button" onClick={() => setVisible((v) => !v)}
+          className="absolute right-2.5 top-1/2 -translate-y-1/2"
+          style={{ color: "var(--text-muted)" }}>
+          {visible ? <EyeOff size={16} /> : <EyeIcon size={16} />}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function PaymentsTab({ business, onSave }: { business: Business; onSave: (b: Business) => void }) {
+  const [b, setB] = useState<Business>(business);
+  const [stripeSecret, setStripeSecret] = useState("");
+  const [paypalSecret, setPaypalSecret] = useState("");
+  const [configured, setConfigured] = useState({ stripe: false, paypal: false });
+
+  useEffect(() => {
+    fetch("/api/payment/status")
+      .then((r) => r.json())
+      .then((d) => setConfigured({ stripe: !!d.stripeConfigured, paypal: !!d.paypalConfigured }))
+      .catch(() => {});
+  }, []);
+
+  const setOp = <K extends keyof Business["onlinePayment"]>(k: K, v: Business["onlinePayment"][K]) =>
+    setB((p) => ({ ...p, onlinePayment: { ...p.onlinePayment, [k]: v } }));
+
+  const save = async () => {
+    const payload = { ...b, stripeSecretKey: stripeSecret || undefined, paypalSecret: paypalSecret || undefined };
+    await fetch("/api/business", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    onSave(b);
+  };
+
+  return (
+    <div className="px-5 flex flex-col gap-5">
+      <div className="card p-4 text-sm" style={{ borderLeft: "3px solid var(--accent)" }}>
+        <p className="font-bold mb-1">How online payments work</p>
+        <p style={{ color: "var(--text-muted)" }}>
+          Enter your own Stripe or PayPal credentials below. When enabled, customers pay before
+          their WhatsApp order is sent — giving you confirmed revenue, not just a message.
+          Your secret keys are stored server-side and never exposed to the browser.
+        </p>
+      </div>
+
+      {/* STRIPE */}
+      <Section title="Stripe">
+        <div className="flex items-center justify-between">
+          <Toggle label="Accept card payments via Stripe" value={b.onlinePayment.stripeEnabled}
+            onChange={(v) => setOp("stripeEnabled", v)} />
+          {configured.stripe && (
+            <span className="text-xs px-2 py-1 rounded-full font-bold"
+              style={{ background: "#10b98122", color: "#10b981" }}>● Secret saved</span>
+          )}
+        </div>
+        {b.onlinePayment.stripeEnabled && (
+          <>
+            <Text label="Publishable Key (pk_live_… or pk_test_…)"
+              value={b.onlinePayment.stripePublishableKey}
+              onChange={(v) => setOp("stripePublishableKey", v)}
+              placeholder="pk_live_…" />
+            <SecretInput label="Secret Key (sk_live_… or sk_test_…) — stored server-side only"
+              value={stripeSecret}
+              onChange={setStripeSecret}
+              placeholder={configured.stripe ? "Leave blank to keep existing" : "sk_live_…"} />
+            <p className="text-xs" style={{ color: "var(--text-muted)" }}>
+              Get your keys at dashboard.stripe.com → Developers → API keys
+            </p>
+          </>
+        )}
+      </Section>
+
+      {/* PAYPAL */}
+      <Section title="PayPal">
+        <div className="flex items-center justify-between">
+          <Toggle label="Accept PayPal payments" value={b.onlinePayment.paypalEnabled}
+            onChange={(v) => setOp("paypalEnabled", v)} />
+          {configured.paypal && (
+            <span className="text-xs px-2 py-1 rounded-full font-bold"
+              style={{ background: "#10b98122", color: "#10b981" }}>● Secret saved</span>
+          )}
+        </div>
+        {b.onlinePayment.paypalEnabled && (
+          <>
+            <Text label="Client ID" value={b.onlinePayment.paypalClientId}
+              onChange={(v) => setOp("paypalClientId", v)}
+              placeholder="AYour…PayPalClientId" />
+            <SecretInput label="Client Secret — stored server-side only"
+              value={paypalSecret}
+              onChange={setPaypalSecret}
+              placeholder={configured.paypal ? "Leave blank to keep existing" : "EYour…PayPalSecret"} />
+            <p className="text-xs" style={{ color: "var(--text-muted)" }}>
+              Get your credentials at developer.paypal.com → Apps & Credentials
+            </p>
+          </>
+        )}
+      </Section>
+
+      <button className="btn-primary py-3 flex items-center justify-center gap-2" onClick={save}>
+        <Save size={18} /> Save Payment Settings
+      </button>
     </div>
   );
 }

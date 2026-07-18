@@ -24,6 +24,13 @@ export interface SlotConfig {
   maxPerSlot: number;
 }
 
+export interface OnlinePaymentConfig {
+  stripeEnabled: boolean;
+  stripePublishableKey: string;
+  paypalEnabled: boolean;
+  paypalClientId: string;
+}
+
 export interface Business {
   businessName: string;
   tagline: string;
@@ -60,6 +67,7 @@ export interface Business {
 
   paymentMethods: PaymentMethods;
   socialLinks: SocialLinks;
+  onlinePayment: OnlinePaymentConfig;
 }
 
 export interface ModifierOption {

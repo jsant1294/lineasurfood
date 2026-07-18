@@ -46,6 +46,12 @@ export const DEFAULT_BUSINESS: Business = {
     instagram: "sabordemiabuela",
     tiktok: "",
   },
+  onlinePayment: {
+    stripeEnabled: false,
+    stripePublishableKey: "",
+    paypalEnabled: false,
+    paypalClientId: "",
+  },
 };
 
 // merge stored business onto defaults so new fields are never undefined
@@ -57,5 +63,6 @@ export function mergeBusiness(stored: Partial<Business> | null | undefined): Bus
     slots: { ...DEFAULT_BUSINESS.slots, ...(stored.slots ?? {}) },
     paymentMethods: { ...DEFAULT_BUSINESS.paymentMethods, ...(stored.paymentMethods ?? {}) },
     socialLinks: { ...DEFAULT_BUSINESS.socialLinks, ...(stored.socialLinks ?? {}) },
+    onlinePayment: { ...DEFAULT_BUSINESS.onlinePayment, ...(stored.onlinePayment ?? {}) },
   };
 }
