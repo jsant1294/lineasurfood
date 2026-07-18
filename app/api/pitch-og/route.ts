@@ -72,7 +72,7 @@ export async function GET() {
           borderTop: "1px solid #2A221A",
         }}>
           <span style={{ color: "#F0EBE0", fontSize: 15, fontWeight: 700, letterSpacing: "-0.01em" }}>
-            lineasur-menu.vercel.app/pitch.html
+            lineasurfood.southlineone.com/pitch.html
           </span>
           <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
             <div style={{ width: 8, height: 8, borderRadius: 4, background: "#4CAF50" }} />
