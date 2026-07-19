@@ -97,42 +97,34 @@
 
   /* ── HERO ── */
   .hero {
-    padding: 72px 0 0;
+    padding: 88px 0 72px;
     border-bottom: 1px solid var(--border);
     position: relative;
     overflow: hidden;
+    background-image: url('/images/pitch-hero.jpg');
+    background-size: cover;
+    background-position: 68% center;
   }
+  /* dark overlay: opaque left (text), fades right (image shows through) */
   .hero::before {
     content: '';
-    position: absolute; top: 0; left: -100px; right: -100px; bottom: 0;
-    background: radial-gradient(ellipse 60% 70% at 20% 40%, var(--accent-glow), transparent 70%);
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 55% 80% at 10% 55%, rgba(224,74,24,0.18), transparent 65%),
+      linear-gradient(to right,
+        #100D09 0%,
+        rgba(16,13,9,0.88) 38%,
+        rgba(16,13,9,0.45) 65%,
+        rgba(16,13,9,0.10) 100%
+      );
     pointer-events: none;
+    z-index: 0;
   }
   .hero-inner {
-    display: flex; align-items: stretch; gap: 0;
-    min-height: 540px;
+    position: relative; z-index: 1;
   }
   .hero-content {
-    flex: 1 1 0; min-width: 0; padding-bottom: 64px;
-    display: flex; flex-direction: column; justify-content: center;
-  }
-  .hero-media {
-    flex: 0 0 48%; max-width: 560px;
-    position: relative;
-    margin-right: -24px;
-    overflow: hidden;
-  }
-  .hero-media img {
-    position: absolute;
-    inset: 0;
-    width: 100%; height: 100%;
-    object-fit: cover; object-position: 62% top;
-    mask-image: linear-gradient(to bottom, black 55%, transparent 95%),
-                linear-gradient(to left, black 70%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to bottom, black 55%, transparent 95%),
-                        linear-gradient(to left, black 70%, transparent 100%);
-    mask-composite: intersect;
-    -webkit-mask-composite: source-in;
+    max-width: 580px;
   }
   .hero-eyebrow {
     font-family: var(--font-mono); font-size: 11px; font-weight: 700;
@@ -301,23 +293,21 @@
   footer strong { color: var(--text); }
 
   /* ── RESPONSIVE ── */
-  @media (max-width: 860px) {
-    .hero-inner { flex-direction: column; align-items: stretch; min-height: auto; }
-    .hero-content { padding-bottom: 32px; justify-content: flex-start; }
-    .hero-media {
-      flex: none; max-width: 100%; margin-right: 0; margin-top: 16px;
-      position: relative; height: 260px; overflow: hidden;
-    }
-    .hero-media img {
-      border-radius: 12px 12px 0 0;
-      mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
-      -webkit-mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
-      mask-composite: unset; -webkit-mask-composite: unset;
-    }
-  }
   @media (max-width: 640px) {
+    .hero {
+      background-position: 80% center;
+      padding: 56px 0 48px;
+    }
+    /* on mobile: uniform dark overlay so text is always readable */
+    .hero::before {
+      background:
+        radial-gradient(ellipse 80% 60% at 10% 80%, rgba(224,74,24,0.14), transparent 70%),
+        linear-gradient(to bottom,
+          rgba(16,13,9,0.82) 0%,
+          rgba(16,13,9,0.72) 100%
+        );
+    }
     .wrap { padding: 0 16px; }
-    .hero { padding: 48px 0 0; }
     .hero-stat-row { gap: 20px; }
     .steps-row { grid-template-columns: 1fr; }
     .steps-row::before { display: none; }
@@ -354,7 +344,8 @@
 
 <!-- HERO -->
 <section class="hero">
-  <div class="wrap hero-inner">
+  <div class="wrap">
+    <div class="hero-inner">
     <div class="hero-content">
       <p class="hero-eyebrow">
         <span class="en">Digital Menu &amp; Ordering System</span>
@@ -401,8 +392,6 @@
         </div>
       </div>
     </div>
-    <div class="hero-media">
-      <img src="/images/pitch-hero.jpg" alt="Food ordering app on phone with food items" />
     </div>
   </div>
 </section>
